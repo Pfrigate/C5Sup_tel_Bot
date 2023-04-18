@@ -128,7 +128,7 @@ Actividad=["SOPORTE_WKS_ADMIN","SOPORTE_WKS_OPERATIVA","SOPORTE_IMPRESORAS","SOP
 Tt=["MESA DE AYUDA","A SOLICITUD","BARRIDO"]
 
 fase0,fase1, fase2, fase3, fase4, fase5,fase6,fase7,fase8 = range(9)
-com_si, com_no, regresar_inicio,regresar_piso,regresar_nombre,regresar_actividad= range(6)
+com_si, com_no, regresar_inicio, regresar_piso, regresar_nombre, regresar_actividad, act_enl_pg1, act_enl_pg2, act_enl_pg3, act_enl_pg4, act_enl_pg5= range(11)
 busqueda,bitacora= range(2)
 # Pre-assign menu text
 FIRST_MENU = "<b>Bienvenido</b>\n\n Seleccione el piso de la incidencia."
@@ -145,7 +145,7 @@ db = mysql.connector.connect(
 
 # Build keyboards
 FIRST_MENU_MARKUP = InlineKeyboardMarkup([
-    [InlineKeyboardButton("busqueda", callback_data=str(busqueda)),InlineKeyboardButton("regresar a seleccion de usuario", callback_data=str(regresar_nombre))],
+    [InlineKeyboardButton("busqueda", callback_data=str(busqueda))],
     [InlineKeyboardButton("bitacora", callback_data=str(bitacora))],
     ])
 MENU_FLOOR_MARKUP = InlineKeyboardMarkup([
@@ -245,7 +245,7 @@ MENU_ACTIV_MARKUP = InlineKeyboardMarkup([
 ])
 #activiades nuevas
 MENU_ACTIV_ENLACE1_MARKUP = InlineKeyboardMarkup([
-    [InlineKeyboardButton("regresar a seleccion de usuario", callback_data=str(regresar_nombre))],
+    [InlineKeyboardButton("seleccion de usuario", callback_data=str(regresar_nombre)), InlineKeyboardButton("siguiente", callback_data=str( act_enl_pg2))],
     [InlineKeyboardButton(Actividad_enlace[0], callback_data=Actividad_enlace[0])],
     [InlineKeyboardButton(Actividad_enlace[1], callback_data=Actividad_enlace[1])],
     [InlineKeyboardButton(Actividad_enlace[2], callback_data=Actividad_enlace[2])],
@@ -259,7 +259,7 @@ MENU_ACTIV_ENLACE1_MARKUP = InlineKeyboardMarkup([
     [InlineKeyboardButton(Actividad_enlace[10], callback_data=Actividad_enlace[10])]
 ])
 MENU_ACTIV_ENLACE2_MARKUP = InlineKeyboardMarkup([
-    [InlineKeyboardButton("regresar a seleccion de usuario", callback_data=str(regresar_nombre))],
+    [InlineKeyboardButton("seleccion de usuario", callback_data=str(regresar_nombre)), InlineKeyboardButton("anterior", callback_data=str( act_enl_pg1)),InlineKeyboardButton("siguiente", callback_data=str( act_enl_pg3))],
     [InlineKeyboardButton(Actividad_enlace[11], callback_data=Actividad_enlace[11])],
     [InlineKeyboardButton(Actividad_enlace[12], callback_data=Actividad_enlace[12])],
     [InlineKeyboardButton(Actividad_enlace[13], callback_data=Actividad_enlace[13])],
@@ -273,7 +273,7 @@ MENU_ACTIV_ENLACE2_MARKUP = InlineKeyboardMarkup([
     [InlineKeyboardButton(Actividad_enlace[21], callback_data=Actividad_enlace[21])]
 ])
 MENU_ACTIV_ENLACE3_MARKUP = InlineKeyboardMarkup([
-    [InlineKeyboardButton("regresar a seleccion de usuario", callback_data=str(regresar_nombre))],
+    [InlineKeyboardButton("seleccion de usuario", callback_data=str(regresar_nombre)), InlineKeyboardButton("anterior", callback_data=str( act_enl_pg2)),InlineKeyboardButton("siguiente", callback_data=str( act_enl_pg4))],
     
     [InlineKeyboardButton(Actividad_enlace[22], callback_data=Actividad_enlace[22])],
     [InlineKeyboardButton(Actividad_enlace[23], callback_data=Actividad_enlace[23])],
@@ -287,7 +287,7 @@ MENU_ACTIV_ENLACE3_MARKUP = InlineKeyboardMarkup([
     [InlineKeyboardButton(Actividad_enlace[31], callback_data=Actividad_enlace[31])]
 ])
 MENU_ACTIV_ENLACE4_MARKUP = InlineKeyboardMarkup([
-    [InlineKeyboardButton("regresar a seleccion de usuario", callback_data=str(regresar_nombre))],
+    [InlineKeyboardButton("seleccion de usuario", callback_data=str(regresar_nombre)), InlineKeyboardButton("anterior", callback_data=str( act_enl_pg3)),InlineKeyboardButton("siguiente", callback_data=str( act_enl_pg5))],
     
     [InlineKeyboardButton(Actividad_enlace[32], callback_data=Actividad_enlace[32])],
     [InlineKeyboardButton(Actividad_enlace[33], callback_data=Actividad_enlace[33])],
@@ -301,7 +301,7 @@ MENU_ACTIV_ENLACE4_MARKUP = InlineKeyboardMarkup([
     [InlineKeyboardButton(Actividad_enlace[41], callback_data=Actividad_enlace[41])]
 ])
 MENU_ACTIV_ENLACE5_MARKUP = InlineKeyboardMarkup([
-    [InlineKeyboardButton("regresar a seleccion de usuario", callback_data=str(regresar_nombre))],
+    [InlineKeyboardButton("seleccion de usuario", callback_data=str(regresar_nombre)), InlineKeyboardButton("anterior", callback_data=str( act_enl_pg4))],
     
     [InlineKeyboardButton(Actividad_enlace[42], callback_data=Actividad_enlace[42])],
     [InlineKeyboardButton(Actividad_enlace[43], callback_data=Actividad_enlace[43])],
@@ -479,8 +479,21 @@ async def end(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     query = update.callback_query
     await query.answer()
     await query.edit_message_text(f"entendido, hasta pronto!\n{facts_to_str(context.user_data)}")
-    context.user_data["comentario"]=""
+    context.user_data["comentario"]="-"
+    print(facts_to_array(context.user_data))
     Prueba_pandas.Agergar_Linea(facts_to_array(context.user_data))
+    
+    cursor = db.cursor()
+    # Consultar si el dato ingresado existe en la base de datos
+    query = "INSERT INTO Bitacora (piso, area, nombre_usuario, actividad, medio, comentario )VALUES (%s,%s,%s,%s,%s,%s)"
+    #query = "INSERT INTO Bitacora (piso, area, nombre_usuario, tipo_usr, actividad, medio, comentario )VALUES (%s,%s,%s,%s,%s,%s,%s)"
+    
+    val= tuple(context.user_data.values())
+    print(query,val)
+    cursor.execute(query,val)
+    db.commit()
+    print(cursor.rowcount, "registro(s) insertado(s).")
+
     context.user_data.clear()
     return ConversationHandler.END
 
@@ -500,9 +513,23 @@ async def done(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
         f"comentario recibido hasta pronto!\n{facts_to_str(context.user_data)}",
         reply_markup=ReplyKeyboardRemove(),
     )
-    
     Prueba_pandas.Agergar_Linea(facts_to_array(context.user_data))
+    
+    
+    cursor = db.cursor()
+    # Consultar si el dato ingresado existe en la base de datos
+    #query = "INSERT INTO Bitacora (piso, area, nombre_usuario, tipo_usr, actividad, medio, comentario )VALUES (%s,%s,%s,%s,%s,%s,%s)"
+    query = "INSERT INTO Bitacora (piso, area, nombre_usuario, actividad, medio, comentario )VALUES (%s,%s,%s,%s,%s,%s)"
+    
+    val= tuple(context.user_data.values())
+    print(query,val)
+    cursor.execute(query,val)
+    db.commit()
+    print(cursor.rowcount, "registro(s) insertado(s).")
+
+    print(facts_to_array(context.user_data))
     context.user_data.clear()
+    
     return ConversationHandler.END
 
 async def cancelar(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
@@ -557,6 +584,7 @@ async def search_data(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
     )
     
     return ConversationHandler.END
+
 
 
 def main() -> None:
