@@ -33,6 +33,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+#Se definen las opciones de los menus
 Planta_B=["TECNOLOGÍA","INFRAESTRUCTURA","COE","CAPITAL HUMANO","OFICIALÍA",
 "OPERACIONES PB","AUDITORIO","CUARTO_DE_CONTROL","ALMACÉN","NOC-SOC","CASETAS_PBI"]
 Piso1=["JURÍDICO","LLAMADAS 911","ESTADÍSTICA","UCA","APH","OPERACIONES","DEPENDENCIAS C3",
@@ -45,6 +46,82 @@ Externo=["C2'S","ALCALDÍAS","BALBUENA","SEÑALES_COMPARTIDAS"]
 Niveles=["PLANTA_BAJA","PISO1","PISO2","PISO3","EXTERNOS"]
 Nombres=["ARACELI BENITEZ ROSALES","EDSON NAVARRO ALONSO","ZAHED LILA SANDOVAL",
 "SERGIO LÓPEZ SÁNCHEZ","GUSTAVO HERNANDEZ LOPEZ","GERARDO MORALES GARCÍA"]
+Actividad_enlace=[
+    "Monitoreo de Señales",
+    "Supervisión C5",
+    "Supervisión del C2ORIENTE",
+    "Supervisión del C2PONIENTE",
+    "Supervisión del C2SUR",
+    "Supervisión del C2NORTE",
+    "Supervisión del C2CENTRO",
+    "Supervisión del C2CEDA",
+    "Supervisión del C2CHI",
+    "Reparación de equipos de computo",
+    "Habilitar Sala de tránsito ",
+    "Soporte al 3er piso CG",
+    "Atención  a Equipos Impresoras (Inventario, bajas)",
+    "Monitoreo de Mesa y atención de tickets",
+    "Mantenimiento de las WKS para DONACIONES",
+    "Asignación de proyector",
+    "Asignación de equipos Adminitrativos C2CHI",
+    "Habilitar Auditorio",
+    "Mantenimientos a estaciones de trabajo",
+    "Marcas de Agua en C2CHI",
+    "Reasignación de equipos del COE",
+    "Habilitar sala pasteles",
+    "Soporte a  equipos Video Wall_OI",
+    "Atención de Oficios Instalación  software",
+    "Actualización del WSUS",
+    "Aplicación Marca de agua (Plantillas, Intalación)",
+    "Atención a Alcaldias",
+    "Implementación de Pantallas Audiovisuales",
+    "Atención de Oficios Instalación de equipos",
+    "órden de la Bodega de estaciones de trabajo",
+    "Actualización de Inventario de las MDC",
+    "Instalación Raspberry",
+    "Creación de Imágenes Administrativas",
+    "Creación de Imágenes Operativas",
+    "Control de Imágenes C5, C2's",
+    "Asignación de Proyector equipo OI",
+    "Atención de tickets",
+    "Puesta en marcha Señales",
+    "Diagnostico de fallas",
+    "Monitoreo Enlace Virreinal y Liverpool",
+    "Encargado del Orden de la Bodega de Tóner/Componentes",
+    "Reubicación de equipos Administrativos ",
+    "Reubicación de equipos Operativos",
+    "Reubicación de equipos Impresoras",
+    "Inventario de componentes dañados",    
+    "Inventario de stock de componentes",
+    "Soporte a software",
+    "Solicitud de liberación de puertos",
+    "Solicitud de liberación puertas",
+    "Apoyo a las mejoras de procesos",
+    "Implementación de Imágenes C2CHI",
+    "Diagnostico de fallas",
+    "Apoyo a las actividades del Metro"
+]
+Actividad_JUD=[
+    "Revisión de grupos Operativos y Administrativo",
+    "Barrido diarío de tickets asignados a la consola de soporte",
+    "Seguimiento con los tickets asignados a correctivos",
+    "Asignación de atención de tickets",
+    "Generación de hojas de salida/entrada de componentes",
+    "Atención a la programación de Visitas (Sala transito, Auditorio)",
+    "Planeación de horarios Equipamiento",
+    "Revisión de logistica de Horarios Soporte",
+    "Validación de lista de accesos",
+    "Creación de Lógistica de atención de tickets",
+    "Capacitación al Soporte en Sitio",
+    "Capacitación a los Supervisores de Soporte en sitio",
+    "Generación de Informes",
+    "Soporte a  equipos Video Wall_OI",
+    "Planificar Mantenimientos ",
+    "Planear Limpieza de Bodegas",
+    "Recopilación de Información para Anexos",
+    "Cursos",
+    "Informe de equipos Operativo con Office"
+]
 Actividad=["SOPORTE_WKS_ADMIN","SOPORTE_WKS_OPERATIVA","SOPORTE_IMPRESORAS","SOPORTE_OI",
 "SOPORTE_GENERAL","ACTIVIDAD_ADMIN","CLONACIÓN_DONACIONES","WKS_ALCALDÍAS",
 "IMÁGENES_DE_SO","MANTENIMIENTOS","WSUS"]
@@ -56,6 +133,8 @@ busqueda,bitacora= range(2)
 # Pre-assign menu text
 FIRST_MENU = "<b>Bienvenido</b>\n\n Seleccione el piso de la incidencia."
 SECOND_MENU = "<b>Areas</b>\n\n."
+
+#Se establece la conexion a la Base de Datos ubicada en phpMyAdmin
 db = mysql.connector.connect(
     host="127.0.0.1",
     user="root",
@@ -66,7 +145,7 @@ db = mysql.connector.connect(
 
 # Build keyboards
 FIRST_MENU_MARKUP = InlineKeyboardMarkup([
-    [InlineKeyboardButton("busqueda", callback_data=str(busqueda))],
+    [InlineKeyboardButton("busqueda", callback_data=str(busqueda)),InlineKeyboardButton("regresar a seleccion de usuario", callback_data=str(regresar_nombre))],
     [InlineKeyboardButton("bitacora", callback_data=str(bitacora))],
     ])
 MENU_FLOOR_MARKUP = InlineKeyboardMarkup([
@@ -149,7 +228,7 @@ MENU_NAME_MARKUP = InlineKeyboardMarkup([
     [InlineKeyboardButton(Nombres[5], callback_data=Nombres[5])]
 ])
 
-
+#Actividades anteriores
 MENU_ACTIV_MARKUP = InlineKeyboardMarkup([
     [InlineKeyboardButton("regresar a seleccion de usuario", callback_data=str(regresar_nombre))],
     [InlineKeyboardButton(Actividad[0], callback_data=Actividad[0])],
@@ -164,8 +243,93 @@ MENU_ACTIV_MARKUP = InlineKeyboardMarkup([
     [InlineKeyboardButton(Actividad[9], callback_data=Actividad[9])],
     [InlineKeyboardButton(Actividad[10], callback_data=Actividad[10])]
 ])
+#activiades nuevas
+MENU_ACTIV_ENLACE1_MARKUP = InlineKeyboardMarkup([
+    [InlineKeyboardButton("regresar a seleccion de usuario", callback_data=str(regresar_nombre))],
+    [InlineKeyboardButton(Actividad_enlace[0], callback_data=Actividad_enlace[0])],
+    [InlineKeyboardButton(Actividad_enlace[1], callback_data=Actividad_enlace[1])],
+    [InlineKeyboardButton(Actividad_enlace[2], callback_data=Actividad_enlace[2])],
+    [InlineKeyboardButton(Actividad_enlace[3], callback_data=Actividad_enlace[3])],
+    [InlineKeyboardButton(Actividad_enlace[4], callback_data=Actividad_enlace[4])],
+    [InlineKeyboardButton(Actividad_enlace[5], callback_data=Actividad_enlace[5])],
+    [InlineKeyboardButton(Actividad_enlace[6], callback_data=Actividad_enlace[6])],
+    [InlineKeyboardButton(Actividad_enlace[7], callback_data=Actividad_enlace[7])],
+    [InlineKeyboardButton(Actividad_enlace[8], callback_data=Actividad_enlace[8])],
+    [InlineKeyboardButton(Actividad_enlace[9], callback_data=Actividad_enlace[9])],
+    [InlineKeyboardButton(Actividad_enlace[10], callback_data=Actividad_enlace[10])]
+])
+MENU_ACTIV_ENLACE2_MARKUP = InlineKeyboardMarkup([
+    [InlineKeyboardButton("regresar a seleccion de usuario", callback_data=str(regresar_nombre))],
+    [InlineKeyboardButton(Actividad_enlace[11], callback_data=Actividad_enlace[11])],
+    [InlineKeyboardButton(Actividad_enlace[12], callback_data=Actividad_enlace[12])],
+    [InlineKeyboardButton(Actividad_enlace[13], callback_data=Actividad_enlace[13])],
+    [InlineKeyboardButton(Actividad_enlace[14], callback_data=Actividad_enlace[14])],
+    [InlineKeyboardButton(Actividad_enlace[15], callback_data=Actividad_enlace[15])],
+    [InlineKeyboardButton(Actividad_enlace[16], callback_data=Actividad_enlace[16])],
+    [InlineKeyboardButton(Actividad_enlace[17], callback_data=Actividad_enlace[17])],
+    [InlineKeyboardButton(Actividad_enlace[18], callback_data=Actividad_enlace[18])],
+    [InlineKeyboardButton(Actividad_enlace[19], callback_data=Actividad_enlace[19])],
+    [InlineKeyboardButton(Actividad_enlace[20], callback_data=Actividad_enlace[20])],
+    [InlineKeyboardButton(Actividad_enlace[21], callback_data=Actividad_enlace[21])]
+])
+MENU_ACTIV_ENLACE3_MARKUP = InlineKeyboardMarkup([
+    [InlineKeyboardButton("regresar a seleccion de usuario", callback_data=str(regresar_nombre))],
+    
+    [InlineKeyboardButton(Actividad_enlace[22], callback_data=Actividad_enlace[22])],
+    [InlineKeyboardButton(Actividad_enlace[23], callback_data=Actividad_enlace[23])],
+    [InlineKeyboardButton(Actividad_enlace[24], callback_data=Actividad_enlace[24])],
+    [InlineKeyboardButton(Actividad_enlace[25], callback_data=Actividad_enlace[25])],
+    [InlineKeyboardButton(Actividad_enlace[26], callback_data=Actividad_enlace[26])],
+    [InlineKeyboardButton(Actividad_enlace[27], callback_data=Actividad_enlace[27])],
+    [InlineKeyboardButton(Actividad_enlace[28], callback_data=Actividad_enlace[28])],
+    [InlineKeyboardButton(Actividad_enlace[29], callback_data=Actividad_enlace[29])],
+    [InlineKeyboardButton(Actividad_enlace[30], callback_data=Actividad_enlace[30])],
+    [InlineKeyboardButton(Actividad_enlace[31], callback_data=Actividad_enlace[31])]
+])
+MENU_ACTIV_ENLACE4_MARKUP = InlineKeyboardMarkup([
+    [InlineKeyboardButton("regresar a seleccion de usuario", callback_data=str(regresar_nombre))],
+    
+    [InlineKeyboardButton(Actividad_enlace[32], callback_data=Actividad_enlace[32])],
+    [InlineKeyboardButton(Actividad_enlace[33], callback_data=Actividad_enlace[33])],
+    [InlineKeyboardButton(Actividad_enlace[34], callback_data=Actividad_enlace[34])],
+    [InlineKeyboardButton(Actividad_enlace[35], callback_data=Actividad_enlace[35])],
+    [InlineKeyboardButton(Actividad_enlace[36], callback_data=Actividad_enlace[36])],
+    [InlineKeyboardButton(Actividad_enlace[37], callback_data=Actividad_enlace[37])],
+    [InlineKeyboardButton(Actividad_enlace[38], callback_data=Actividad_enlace[38])],
+    [InlineKeyboardButton(Actividad_enlace[39], callback_data=Actividad_enlace[39])],
+    [InlineKeyboardButton(Actividad_enlace[40], callback_data=Actividad_enlace[40])],
+    [InlineKeyboardButton(Actividad_enlace[41], callback_data=Actividad_enlace[41])]
+])
+MENU_ACTIV_ENLACE5_MARKUP = InlineKeyboardMarkup([
+    [InlineKeyboardButton("regresar a seleccion de usuario", callback_data=str(regresar_nombre))],
+    
+    [InlineKeyboardButton(Actividad_enlace[42], callback_data=Actividad_enlace[42])],
+    [InlineKeyboardButton(Actividad_enlace[43], callback_data=Actividad_enlace[43])],
+    [InlineKeyboardButton(Actividad_enlace[44], callback_data=Actividad_enlace[44])],
+    [InlineKeyboardButton(Actividad_enlace[45], callback_data=Actividad_enlace[45])],
+    [InlineKeyboardButton(Actividad_enlace[46], callback_data=Actividad_enlace[46])],
+    [InlineKeyboardButton(Actividad_enlace[47], callback_data=Actividad_enlace[47])],
+    [InlineKeyboardButton(Actividad_enlace[48], callback_data=Actividad_enlace[48])],
+    [InlineKeyboardButton(Actividad_enlace[49], callback_data=Actividad_enlace[49])],
+    [InlineKeyboardButton(Actividad_enlace[50], callback_data=Actividad_enlace[50])],
+    [InlineKeyboardButton(Actividad_enlace[51], callback_data=Actividad_enlace[51])],
+    [InlineKeyboardButton(Actividad_enlace[52], callback_data=Actividad_enlace[52])]
+])
 
-
+MENU_ACTIV_JUD_MARKUP = InlineKeyboardMarkup([
+    [InlineKeyboardButton("regresar a seleccion de usuario", callback_data=str(regresar_nombre))],
+    
+    [InlineKeyboardButton(Actividad_JUD[0], callback_data=Actividad_JUD[0])],
+    [InlineKeyboardButton(Actividad_JUD[1], callback_data=Actividad_JUD[1])],
+    [InlineKeyboardButton(Actividad_JUD[2], callback_data=Actividad_JUD[2])],
+    [InlineKeyboardButton(Actividad_JUD[3], callback_data=Actividad_JUD[3])],
+    [InlineKeyboardButton(Actividad_JUD[4], callback_data=Actividad_JUD[4])],
+    [InlineKeyboardButton(Actividad_JUD[5], callback_data=Actividad_JUD[5])],
+    [InlineKeyboardButton(Actividad_JUD[6], callback_data=Actividad_JUD[6])],
+    [InlineKeyboardButton(Actividad_JUD[7], callback_data=Actividad_JUD[7])],
+    [InlineKeyboardButton(Actividad_JUD[8], callback_data=Actividad_JUD[8])],
+    [InlineKeyboardButton(Actividad_JUD[9], callback_data=Actividad_JUD[9])]
+])
 MENU_TT_MARKUP = InlineKeyboardMarkup([
     [InlineKeyboardButton("regresar a seleccion de actividad", callback_data=str(regresar_actividad))],
     [InlineKeyboardButton(Tt[0], callback_data=Tt[0])],
@@ -180,6 +344,7 @@ MENU_COM_MARKUP = InlineKeyboardMarkup([
     [InlineKeyboardButton("informacion adicional", callback_data=str(com_si))],
     ])
 
+#Funcion del comando /start 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Send message on `/start`."""
     user = update.message.from_user
@@ -188,7 +353,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     await update.message.reply_text("que actividad desea realizar", reply_markup=FIRST_MENU_MARKUP)
     return fase0
 
-
+#Spiso = Selecciona piso
 async def Spiso(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Show new choice of buttons"""
     
@@ -262,7 +427,7 @@ async def actividad(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     )
     return fase4
 
-
+#tt es ticket//medio por el cual se realiza la actividad
 async def tt(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     query = update.callback_query
     await query.answer()
@@ -350,7 +515,7 @@ async def cancelar(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     context.user_data.clear()
     return ConversationHandler.END
 
-
+#escribe_BUS = escribe busqueda
 async def escribe_BUS(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Show new choice of buttons"""
     query = update.callback_query
@@ -429,7 +594,7 @@ def main() -> None:
     # Run the bot until the user presses Ctrl-C
     application.run_polling()
 
-
+#Se ejecuta el bot con main
 if __name__ == "__main__":
     main()
 
