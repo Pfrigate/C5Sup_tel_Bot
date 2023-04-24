@@ -107,13 +107,14 @@ Actividad_JUD=[
     "Seguimiento con los tickets asignados a correctivos",
     "Asignación de atención de tickets",
     "Generación de hojas de salida/entrada de componentes",
-    "Atención a la programación de Visitas (Sala transito, Auditorio)",
+    "Atencion a la programacion de Visitas Sala transito, Auditorio",
     "Planeación de horarios Equipamiento",
     "Revisión de logistica de Horarios Soporte",
     "Validación de lista de accesos",
     "Creación de Lógistica de atención de tickets",
     "Capacitación al Soporte en Sitio",
     "Capacitación a los Supervisores de Soporte en sitio",
+    #genioi
     "Generación de Informes",
     "Soporte a  equipos Video Wall_OI",
     "Planificar Mantenimientos ",
@@ -127,9 +128,10 @@ Actividad=["SOPORTE_WKS_ADMIN","SOPORTE_WKS_OPERATIVA","SOPORTE_IMPRESORAS","SOP
 "IMÁGENES_DE_SO","MANTENIMIENTOS","WSUS"]
 Tt=["MESA DE AYUDA","A SOLICITUD","BARRIDO"]
 
-fase0,fase1, fase2, fase3, fase4, fase5,fase6,fase7,fase8 = range(9)
+fase0,fase1, fase2, fase3,fase3_1, fase4, fase5,fase6,fase7,fase8 = range(10)
 com_si, com_no, regresar_inicio, regresar_piso, regresar_nombre, regresar_actividad, act_enl_pg1, act_enl_pg2, act_enl_pg3, act_enl_pg4, act_enl_pg5= range(11)
 busqueda,bitacora= range(2)
+
 # Pre-assign menu text
 FIRST_MENU = "<b>Bienvenido</b>\n\n Seleccione el piso de la incidencia."
 SECOND_MENU = "<b>Areas</b>\n\n."
@@ -231,19 +233,42 @@ MENU_NAME_MARKUP = InlineKeyboardMarkup([
 #Actividades anteriores
 MENU_ACTIV_MARKUP = InlineKeyboardMarkup([
     [InlineKeyboardButton("regresar a seleccion de usuario", callback_data=str(regresar_nombre))],
-    [InlineKeyboardButton(Actividad[0], callback_data=Actividad[0])],
-    [InlineKeyboardButton(Actividad[1], callback_data=Actividad[1])],
-    [InlineKeyboardButton(Actividad[2], callback_data=Actividad[2])],
-    [InlineKeyboardButton(Actividad[3], callback_data=Actividad[3])],
-    [InlineKeyboardButton(Actividad[4], callback_data=Actividad[4])],
-    [InlineKeyboardButton(Actividad[5], callback_data=Actividad[5])],
-    [InlineKeyboardButton(Actividad[6], callback_data=Actividad[6])],
-    [InlineKeyboardButton(Actividad[7], callback_data=Actividad[7])],
-    [InlineKeyboardButton(Actividad[8], callback_data=Actividad[8])],
-    [InlineKeyboardButton(Actividad[9], callback_data=Actividad[9])],
-    [InlineKeyboardButton(Actividad[10], callback_data=Actividad[10])]
+    [InlineKeyboardButton("actividad de JUD", callback_data="JUD")],
+    [InlineKeyboardButton("actividad de Enlace", callback_data="Enlace")],
+
 ])
 #activiades nuevas
+MENU_JUD_MARKUP = InlineKeyboardMarkup([
+    [InlineKeyboardButton("seleccion de usuario", callback_data=str(regresar_nombre))],
+    [InlineKeyboardButton(Actividad_JUD[0], callback_data=Actividad_JUD[0])],
+    [InlineKeyboardButton(Actividad_JUD[1], callback_data=Actividad_JUD[1])],
+    [InlineKeyboardButton(Actividad_JUD[2], callback_data=Actividad_JUD[2])],
+    [InlineKeyboardButton(Actividad_JUD[3], callback_data=Actividad_JUD[3])],
+    [InlineKeyboardButton(Actividad_JUD[4], callback_data=Actividad_JUD[4])],
+    [InlineKeyboardButton(Actividad_JUD[5], callback_data=Actividad_JUD[5])],
+    [InlineKeyboardButton(Actividad_JUD[6], callback_data=Actividad_JUD[6])],
+    [InlineKeyboardButton(Actividad_JUD[7], callback_data=Actividad_JUD[7])],
+    [InlineKeyboardButton(Actividad_JUD[8], callback_data=Actividad_JUD[8])],
+    [InlineKeyboardButton(Actividad_JUD[9], callback_data=Actividad_JUD[9])],
+    [InlineKeyboardButton(Actividad_JUD[10], callback_data=Actividad_JUD[10])],
+    [InlineKeyboardButton(Actividad_JUD[11], callback_data=Actividad_JUD[11])],
+    [InlineKeyboardButton(Actividad_JUD[12], callback_data=Actividad_JUD[12])],
+    [InlineKeyboardButton(Actividad_JUD[13], callback_data=Actividad_JUD[13])],
+    [InlineKeyboardButton(Actividad_JUD[14], callback_data=Actividad_JUD[14])],
+    [InlineKeyboardButton(Actividad_JUD[15], callback_data=Actividad_JUD[15])],
+    [InlineKeyboardButton(Actividad_JUD[16], callback_data=Actividad_JUD[16])],
+    [InlineKeyboardButton(Actividad_JUD[17], callback_data=Actividad_JUD[17])],
+    [InlineKeyboardButton(Actividad_JUD[18], callback_data=Actividad_JUD[18])],
+    
+    #[InlineKeyboardButton(Actividad_enlace[3], callback_data=Actividad_enlace[3])],
+    #[InlineKeyboardButton(Actividad_enlace[4], callback_data=Actividad_enlace[4])],
+    #[InlineKeyboardButton(Actividad_enlace[5], callback_data=Actividad_enlace[5])],
+    #[InlineKeyboardButton(Actividad_enlace[6], callback_data=Actividad_enlace[6])],
+    #[InlineKeyboardButton(Actividad_enlace[7], callback_data=Actividad_enlace[7])],
+    #[InlineKeyboardButton(Actividad_enlace[8], callback_data=Actividad_enlace[8])],
+    #[InlineKeyboardButton(Actividad_enlace[9], callback_data=Actividad_enlace[9])],
+    #[InlineKeyboardButton(Actividad_enlace[10], callback_data=Actividad_enlace[10])]
+])
 MENU_ACTIV_ENLACE1_MARKUP = InlineKeyboardMarkup([
     [InlineKeyboardButton("seleccion de usuario", callback_data=str(regresar_nombre)), InlineKeyboardButton("siguiente", callback_data=str( act_enl_pg2))],
     [InlineKeyboardButton(Actividad_enlace[0], callback_data=Actividad_enlace[0])],
@@ -316,20 +341,7 @@ MENU_ACTIV_ENLACE5_MARKUP = InlineKeyboardMarkup([
     [InlineKeyboardButton(Actividad_enlace[52], callback_data=Actividad_enlace[52])]
 ])
 
-MENU_ACTIV_JUD_MARKUP = InlineKeyboardMarkup([
-    [InlineKeyboardButton("regresar a seleccion de usuario", callback_data=str(regresar_nombre))],
-    
-    [InlineKeyboardButton(Actividad_JUD[0], callback_data=Actividad_JUD[0])],
-    [InlineKeyboardButton(Actividad_JUD[1], callback_data=Actividad_JUD[1])],
-    [InlineKeyboardButton(Actividad_JUD[2], callback_data=Actividad_JUD[2])],
-    [InlineKeyboardButton(Actividad_JUD[3], callback_data=Actividad_JUD[3])],
-    [InlineKeyboardButton(Actividad_JUD[4], callback_data=Actividad_JUD[4])],
-    [InlineKeyboardButton(Actividad_JUD[5], callback_data=Actividad_JUD[5])],
-    [InlineKeyboardButton(Actividad_JUD[6], callback_data=Actividad_JUD[6])],
-    [InlineKeyboardButton(Actividad_JUD[7], callback_data=Actividad_JUD[7])],
-    [InlineKeyboardButton(Actividad_JUD[8], callback_data=Actividad_JUD[8])],
-    [InlineKeyboardButton(Actividad_JUD[9], callback_data=Actividad_JUD[9])]
-])
+
 MENU_TT_MARKUP = InlineKeyboardMarkup([
     [InlineKeyboardButton("regresar a seleccion de actividad", callback_data=str(regresar_actividad))],
     [InlineKeyboardButton(Tt[0], callback_data=Tt[0])],
@@ -412,7 +424,7 @@ async def nombre(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     return fase3
     
 
-async def actividad(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+async def tipo_actividad(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     query = update.callback_query
     await query.answer()
     data1 =query.data
@@ -423,10 +435,27 @@ async def actividad(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
         return fase1
     context.user_data["nombre"] = query.data
     await query.edit_message_text(
-        text="escoja la actividad realizada", reply_markup=MENU_ACTIV_MARKUP
+        text="el tipo de actividad", reply_markup=MENU_ACTIV_MARKUP
     )
-    return fase4
+    return fase3_1
 
+async def actividad(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    query = update.callback_query
+    await query.answer()
+    data1 =query.data
+    
+    if data1==str(regresar_piso):
+        #print("nombes")
+        await query.edit_message_text(text="escoja el nombre de quien dio la atencion", reply_markup=MENU_FLOOR_MARKUP)
+        return fase1
+    elif data1=="Enlace":
+        await query.edit_message_text(text="menu actividad enlace pg1", reply_markup=MENU_ACTIV_ENLACE1_MARKUP)
+        context.user_data["tipo_usr"] = query.data
+        return fase4
+    elif data1=="JUD":
+        await query.edit_message_text(text="menu actividad JUD", reply_markup=MENU_JUD_MARKUP)
+        context.user_data["tipo_usr"] = query.data
+        return fase4
 #tt es ticket//medio por el cual se realiza la actividad
 async def tt(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     query = update.callback_query
@@ -435,13 +464,31 @@ async def tt(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     
     if data1==str(regresar_nombre):
         #print("nombes")
-        await query.edit_message_text(text="escoja la actividad realizada", reply_markup=MENU_NAME_MARKUP)
+        await query.edit_message_text(text="escoja quien relizo la actividad ", reply_markup=MENU_NAME_MARKUP)
         return fase3
+    elif data1==str(act_enl_pg1):
+        await query.edit_message_text(text="menu actividad enlace pg1", reply_markup=MENU_ACTIV_ENLACE1_MARKUP)
+        return fase4
+    elif data1==str(act_enl_pg2):
+        await query.edit_message_text(text="menu actividad enlace pg2", reply_markup=MENU_ACTIV_ENLACE2_MARKUP)
+        return fase4
+    elif data1==str(act_enl_pg3):
+        await query.edit_message_text(text="menu actividad enlace pg3", reply_markup=MENU_ACTIV_ENLACE3_MARKUP)
+        return fase4
+    elif data1==str(act_enl_pg4):
+        await query.edit_message_text(text="menu actividad enlace pg4", reply_markup=MENU_ACTIV_ENLACE4_MARKUP)
+        return fase4
+    elif data1==str(act_enl_pg5):
+        await query.edit_message_text(text="menu actividad enlace pg5", reply_markup=MENU_ACTIV_ENLACE5_MARKUP)
+        return fase4
+    
     context.user_data["actividad"] = query.data
     await query.edit_message_text(
         text="esta actividad se realizo bajo.", reply_markup=MENU_TT_MARKUP
     )
     return fase5
+
+
 
 
 async def comentarios(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
@@ -485,8 +532,8 @@ async def end(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     
     cursor = db.cursor()
     # Consultar si el dato ingresado existe en la base de datos
-    query = "INSERT INTO Bitacora (piso, area, nombre_usuario, actividad, medio, comentario )VALUES (%s,%s,%s,%s,%s,%s)"
-    #query = "INSERT INTO Bitacora (piso, area, nombre_usuario, tipo_usr, actividad, medio, comentario )VALUES (%s,%s,%s,%s,%s,%s,%s)"
+    #query = "INSERT INTO Bitacora (piso, area, nombre_usuario, actividad, medio, comentario )VALUES (%s,%s,%s,%s,%s,%s)"
+    query = "INSERT INTO Bitacora (piso, area, nombre_usuario, tipo_usr, actividad, medio, comentario )VALUES (%s,%s,%s,%s,%s,%s,%s)"
     
     val= tuple(context.user_data.values())
     print(query,val)
@@ -518,8 +565,8 @@ async def done(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     
     cursor = db.cursor()
     # Consultar si el dato ingresado existe en la base de datos
-    #query = "INSERT INTO Bitacora (piso, area, nombre_usuario, tipo_usr, actividad, medio, comentario )VALUES (%s,%s,%s,%s,%s,%s,%s)"
-    query = "INSERT INTO Bitacora (piso, area, nombre_usuario, actividad, medio, comentario )VALUES (%s,%s,%s,%s,%s,%s)"
+    query = "INSERT INTO Bitacora (piso, area, nombre_usuario, tipo_usr, actividad, medio, comentario )VALUES (%s,%s,%s,%s,%s,%s,%s)"
+    #query = "INSERT INTO Bitacora (piso, area, nombre_usuario, actividad, medio, comentario )VALUES (%s,%s,%s,%s,%s,%s)"
     
     val= tuple(context.user_data.values())
     print(query,val)
@@ -602,7 +649,8 @@ def main() -> None:
                 ],
             fase1:[CallbackQueryHandler( area),CommandHandler("cancelar", cancelar)], 
             fase2:[CallbackQueryHandler( nombre),CommandHandler("cancelar", cancelar)], 
-            fase3:[CallbackQueryHandler( actividad),CommandHandler("cancelar", cancelar)], 
+            fase3:[CallbackQueryHandler( tipo_actividad),CommandHandler("cancelar", cancelar)],
+            fase3_1:[CallbackQueryHandler( actividad),CommandHandler("cancelar", cancelar)],
             fase4:[CallbackQueryHandler( tt),CommandHandler("cancelar", cancelar)],
             fase5:[CallbackQueryHandler( comentarios),CommandHandler("cancelar", cancelar)], 
             fase6:[
